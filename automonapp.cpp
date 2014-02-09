@@ -79,7 +79,7 @@ AutomonApp::AutomonApp(QSplashScreen * splashScreen)
     m_diagnosticsWidget = new DiagnosticsWidget(m_automonKernel,this);
     m_monitoringWidget = new MonitoringWidget(m_automonKernel,this);
     m_dashboardWidget = new DashboardWidget(m_automonKernel,this);
-    m_carDetailsWidget = new CarDetailsWidget(m_automonKernel,this);
+//    m_carDetailsWidget = new CarDetailsWidget(m_automonKernel,this); [LA]
     m_ruleEditorWidget = new RuleEditorWidget(m_automonKernel,this);
 
     /* Create the stacked widget. This will hold all our widgets stacked, and only one can be seen at a time */
@@ -91,7 +91,7 @@ AutomonApp::AutomonApp(QSplashScreen * splashScreen)
     m_panes->addWidget(m_dashboardWidget);
     m_panes->addWidget(m_diagnosticsWidget);
     m_panes->addWidget(m_acellerationTestWidget);
-    m_panes->addWidget(m_carDetailsWidget);
+//    m_panes->addWidget(m_carDetailsWidget);
     m_panes->addWidget(m_ruleEditorWidget);
 
     /* Connect the appropiate buttons to the appropiate widgets so when we click them, we get correct widget shown */
@@ -107,7 +107,7 @@ AutomonApp::AutomonApp(QSplashScreen * splashScreen)
     connect(m_dashboardWidget, SIGNAL(changeStatus(QString)), this, SLOT(setStatus(QString)));
     connect(m_diagnosticsWidget, SIGNAL(changeStatus(QString)), this, SLOT(setStatus(QString)));
     connect(m_acellerationTestWidget, SIGNAL(changeStatus(QString)), this, SLOT(setStatus(QString)));
-    connect(m_carDetailsWidget, SIGNAL(changeStatus(QString)), this, SLOT(setStatus(QString)));
+//    connect(m_carDetailsWidget, SIGNAL(changeStatus(QString)), this, SLOT(setStatus(QString))); [LA]
     connect(m_ruleEditorWidget, SIGNAL(changeStatus(QString)), this, SLOT(setStatus(QString)));
 
     /* Needed for rule editor: */
@@ -124,7 +124,12 @@ AutomonApp::AutomonApp(QSplashScreen * splashScreen)
     setObjectName(QString("MainWindow"));
 
     /* Show in full screen */
+    // [LA]
+#if defined(Q_OS_ANDROID)
     showFullScreen();
+#else
+    setFixedSize(800, 480); // Don't maximize the screen on a PC
+#endif
 }
 
 

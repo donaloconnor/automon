@@ -132,7 +132,7 @@ QList<int> Automon::getBytes(Command & command)
     {
         /* For each Byte string, eg: "FF" = 15base10, convert into an Integer and push onto the result list */
 
-        QByteArray temp(bytes[i].toAscii());
+        QByteArray temp(bytes[i].toLatin1());
         result.append(temp.toInt(&check, 16));
     }
 
@@ -574,39 +574,39 @@ bool Automon::init()
     /*
         This method is called before anything is done with Automon.
         It is responsible for setting up a connection between the ELM327 and the ECU.
-        It has sleeps to prevent commands conflicting with eachother
+        It has sleeps to prevent commands conflicting with each other
     */
 
     /* Update the status on the Splash Screen so user knows what is happening */
     emit updateStatus(tr("Testing ELM Connectivity"), Qt::AlignCenter, Qt::white);
 
-    if (!testElmConnectivity())
-    {
-        /* The ELM327 cannot be contacted! This is a serious problem and should not happen */
-        throw elmnotcontactable_exception();
-    }
+//    if (!testElmConnectivity()) // [LA]
+//    {
+//        /* The ELM327 cannot be contacted! This is a serious problem and should not happen */
+//        throw elmnotcontactable_exception();
+//    }
 
-    emit updateStatus(tr("Initialising ECU to Automon OBDII Bus"), Qt::AlignCenter, Qt::white);
+//    emit updateStatus(tr("Initialising ECU to Automon OBDII Bus"), Qt::AlignCenter, Qt::white);
 
-    if (!initialiseBus())
-    {
-        /*
-            The bus could not be initialised. Communication breakdown between ECU and ELM327.
-            Automon cannot continue at this point
-        */
+//    if (!initialiseBus())
+//    {
+//        /*
+//            The bus could not be initialised. Communication breakdown between ECU and ELM327.
+//            Automon cannot continue at this point
+//        */
 
-        throw init_exception();
-    }
+//        throw init_exception();
+//    }
 
 
-    emit updateStatus(tr("Bus Successfully Initialized"), Qt::AlignCenter, Qt::white);
+//    emit updateStatus(tr("Bus Successfully Initialized"), Qt::AlignCenter, Qt::white);
 
-    emit updateStatus(tr("Loading DTC Codes"), Qt::AlignCenter, Qt::white);
+//    emit updateStatus(tr("Loading DTC Codes"), Qt::AlignCenter, Qt::white);
 
-    if (m_dtcHelper)
-        m_dtcHelper->init(); /* Get the DTC Helper to initialise, loading any faults, and checking if MIL on */
+//    if (m_dtcHelper)
+//        m_dtcHelper->init(); /* Get the DTC Helper to initialise, loading any faults, and checking if MIL on */
 
-    emit updateStatus(tr("DTC Codes Initialized"), Qt::AlignCenter, Qt::white);
+//    emit updateStatus(tr("DTC Codes Initialized"), Qt::AlignCenter, Qt::white);
 
     emit updateStatus(tr("Loading Rules"), Qt::AlignCenter, Qt::white);
 
@@ -615,10 +615,10 @@ bool Automon::init()
 
     emit updateStatus(tr("Loading Sensors"), Qt::AlignCenter, Qt::white);
 
-    /* Add all sensors to Automon and update their support in current vehicle */
-    loadSensors();
+//    /* Add all sensors to Automon and update their support in current vehicle */
+//    loadSensors();
 
-    emit updateStatus(tr("Sensors Loaded"), Qt::AlignCenter, Qt::white);
+//    emit updateStatus(tr("Sensors Loaded"), Qt::AlignCenter, Qt::white);
 
     return true;
 }
@@ -1120,7 +1120,7 @@ QString Automon::getVin()
     for (int i=0; i < fullLine.size(); i += 2)
     {
         QString hexByte = fullLine.section("",i+1,i+2);
-        vinNumber += QByteArray::fromHex(hexByte.toAscii());
+        vinNumber += QByteArray::fromHex(hexByte.toLatin1());
     }
 
     /* A VIN Number has to be 17 characters long by the standard! */

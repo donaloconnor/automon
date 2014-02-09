@@ -25,7 +25,15 @@
 
 #include <QThread>
 #include <QMutex>
-#include "qextserialport.h"
+#include <QtSerialPort/QSerialPort> // [LA]
+//#ifdef win32
+//    #include <QtSerialPort/QtSerialPort>
+//    #include <QtSerialPort/QSerialPortInfo>
+//#else
+//    #include
+//    #include "QtSerialPort/qserialportinfo.h"
+//#endif
+
 #include "sensor.h"
 #include "command.h"
 
@@ -46,7 +54,7 @@ namespace AutomonKernel
         void removeAllActiveSensors();
 
     private:
-        QextSerialPort * m_connection;
+        QSerialPort * m_connection;
         QList<Sensor*> m_activeSensors;
         bool m_isMonitoring;
         bool m_isPaused;

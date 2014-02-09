@@ -55,7 +55,7 @@ bool Rule::addSensor(Sensor * sensor)
     QString copyIn = "s" + sensor->getCommand();
 
     /* Copy the QString into our regular string */
-    strcpy(commandName, copyIn.toAscii());
+    strcpy(commandName, copyIn.toLatin1());
 
     /* Create a QScriptValue object */
     QScriptValue value(m_scriptEngine, 0.0);
@@ -127,7 +127,7 @@ void Rule::updateRule(double value)
 
     char commandName[1024];
     QString copyIn = "s" + senderSensor->getCommand();
-    strcpy(commandName, copyIn.toAscii());
+    strcpy(commandName, copyIn.toLatin1());
 
     /* Set a new value to this */
     QScriptValue scriptValue(m_scriptEngine, value);
@@ -192,7 +192,7 @@ bool Rule::checkIfSatisfied()
     }
 
     /* Get the result of our rule expression */
-    bool ruleResult = m_scriptEngine->evaluate(m_rule.toAscii()).toBoolean();
+    bool ruleResult = m_scriptEngine->evaluate(m_rule.toLatin1()).toBoolean();
 
     if (ruleResult != m_satisfied && ruleResult)
     {

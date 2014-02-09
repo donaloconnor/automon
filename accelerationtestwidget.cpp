@@ -182,7 +182,7 @@ void AccelerationTestWidget::display(double speed)
 
             m_time->start(); /* Start our timer. This timer will keep counting from here now */
 
-            emit changeStatus(tr("Timer started. Timing until you reach "+ QString::number(m_destinationSpeed->value()).toAscii() + "KPH"));
+            emit changeStatus(tr("Timer started. Timing until you reach "+ QString::number(m_destinationSpeed->value()).toLatin1() + "KPH"));
         }
         else if (m_carMoving && speed >= m_destinationSpeed->value())
         {

@@ -30,7 +30,7 @@ ErrorHandler::ErrorHandler(QWidget * parent)
 void ErrorHandler::errorSlot(QString message)
 {
 
-    QString msg(tr(message.toAscii()));
+    QString msg(tr(message.toLatin1()));
 
     setText(msg);
 

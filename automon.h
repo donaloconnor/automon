@@ -43,11 +43,15 @@
 #include "commandedegr.h"
 #include "o2voltage.h"
 #include "rule.h"
+#ifdef Q_OS_MACX
+#include <err.h>
+#else
 #include "error.h"
+#endif
 #include "exceptions.h"
 
-/* TURN OFF DEBUG
-#define DEBUGAUTOMON 1 */   /* Specifies if debug messages will be printed or not */
+/* TURN OFF DEBUG */
+#define DEBUGAUTOMON 1  /* Specifies if debug messages will be printed or not */
 
 #define TURNOFFECHO 1    /* Warning don't remove this. It will probably upset formulas that work on fact no echo */
 #define ADAPTIVETIMING 1 /* If set, adaptive timing will be set to speed up communication with ECU. Better to let enabled */
@@ -55,8 +59,12 @@
 //#define RULEFILE "/home/eclipse/rules"
 //#define DTCCODEFILE "/home/eclipse/codes"
 
-#define RULEFILE "rules"        /* Location of file for storing of user defined rules */
-#define DTCCODEFILE "codes"     /* Location of the DTC code description file */
+//#define RULEFILE "rules"        /* Location of file for storing of user defined rules */
+//#define DTCCODEFILE "codes"     /* Location of the DTC code description file */
+
+// [LA]
+#define RULEFILE ":/files/rules"        /* Location of file for storing of user defined rules */
+#define DTCCODEFILE ":/files/codes"     /* Location of the DTC code description file */
 
 namespace AutomonKernel
 {

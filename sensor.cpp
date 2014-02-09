@@ -43,7 +43,7 @@ bool Sensor::isTurn()
 
     if (!m_lastTime)
     {
-        gettimeofday(&m_timeVal, NULL);
+//        gettimeofday(&m_timeVal, NULL); // [LA]
         m_lastTime = m_timeVal.tv_sec+(m_timeVal.tv_usec/1000000.0);
     }
 
@@ -54,7 +54,7 @@ bool Sensor::isTurn()
         m_currentFrequency = 1; /* Reset the current frequency */
 
         /* Get the time and do calculations to work out difference from last time */
-        gettimeofday(&m_timeVal, NULL);
+//        gettimeofday(&m_timeVal, NULL); // [LA]
         double thisTime = m_timeVal.tv_sec+(m_timeVal.tv_usec/1000000.0);
         m_instRefreshRate = 1/(thisTime - m_lastTime);
         m_lastTime = thisTime;

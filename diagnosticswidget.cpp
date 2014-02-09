@@ -114,7 +114,8 @@ DiagnosticsWidget::DiagnosticsWidget(Automon * kernel, QWidget * parent)
     m_verticalLayout->addStretch();
     m_verticalLayout->addLayout(m_buttonsTop);
 
-
+if(m_kernel) // [LA]
+{displayNoDTCs();
 
     if (m_kernel->getNumCodes() > 0)
     {
@@ -139,6 +140,7 @@ DiagnosticsWidget::DiagnosticsWidget(Automon * kernel, QWidget * parent)
         /* If no codes present set up table to invisible and show no codes. */
         displayNoDTCs();
     }
+}
 
     /* Set the main layout */
     setLayout(m_mainLayout);

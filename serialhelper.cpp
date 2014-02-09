@@ -20,26 +20,51 @@
 
 #include <QMutex>
 #include "automon.h"
+#ifndef Q_OS_ANDROID // [LA] Cross-compile to get this up and running
+#include <QSerialPortInfo>
+#endif
 
 using namespace AutomonKernel;
 
 SerialHelper::SerialHelper(QString port)
 {
-    /* Create a QExtSerialPort object passing in the paramaters that the ELM327 communicates with */
-    m_connection = new QextSerialPort(port);
-    m_connection->setBaudRate(BAUD38400);
-    m_connection->setDataBits(DATA_8);
-    m_connection->setParity(PAR_NONE);
-    m_connection->setStopBits(STOP_1);
-    m_connection->setFlowControl(FLOW_OFF);
-    m_connection->setTimeout(0,10);
+    /* Create a QSerialPort object passing in the parameters that the ELM327 communicates with */
+    m_connection = new QSerialPort(port);
 
+    // Override the default port, if it finds something connected to a different port [LA]
+    qDebug() << "**********Populating Serial Port(s)*************";
+
+    foreach(const QSerialPortInfo &info, QSerialPortInfo::availablePorts())
+    {
+        qDebug() << "Name        : " << info.portName();
+        qDebug() << "Description : " << info.description();
+        qDebug() << "Product ID : "  << info.productIdentifier();
+        qDebug() << "Manufacturer: " << info.manufacturer();
+
+        if( info.manufacturer() == "FTDI")
+            m_connection->setPort(info);
+    }
+
+
+    int result = m_connection->open(QIODevice::ReadWrite);
+    if(result)
+    {
+        m_connection->setBaudRate(QSerialPort::Baud57600);
+        m_connection->setBaudRate(QSerialPort::Baud38400);
+        m_connection->setFlowControl(QSerialPort::NoFlowControl);
+        m_connection->setParity(QSerialPort::NoParity);
+        m_connection->setDataBits(QSerialPort::Data8);
+        m_connection->setStopBits(QSerialPort::OneStop);
+    //    m_connection->clear();
+    //        connect(m_connection, SIGNAL(readyRead()), this, SLOT(onDataReceived()));
+    //    m_connection->setTimeout(0,10);
+    }
     /* m_stop is used to stop the monitoring thread running */
     m_stop = true;
     m_isMonitoring = false;
 
     /* Open a connection to the ELM327 */
-    int result = m_connection->open(QextSerialPort::ReadWrite);
+//    int result = m_connection->open(QSerialPort::ReadWrite);
 
     /* If could not connect, major problem! Throw exception */
     if (!result)
@@ -125,7 +150,7 @@ void SerialHelper::run()
             command = m_activeSensors[i]->getCommand() + " " + (!expectedBytes ? "" : QString::number(expectedBytes)) + "\x0D";
 
             /* Send command to ELM327 */
-            m_connection->write(command.toAscii(), command.length());
+            m_connection->write(command.toLatin1(), command.length());
 
             /* Get the amount of bytes in the serial input buffer */
             bytes = m_connection->bytesAvailable();
@@ -270,7 +295,7 @@ bool SerialHelper::sendCommand(Command & command, int timeout)
     QString message = command.getCommand()+"\x0D";
 
     /* Send command */
-    m_connection->write(message.toAscii(),message.length());
+    m_connection->write(message.toLatin1(),message.length());
 
     /* Sleeep for a few ms to give chance for buffer to fill */
     msleep(10);

@@ -4,20 +4,19 @@
 TEMPLATE = app
 DEPENDPATH += qtc-gdbmacros
 INCLUDEPATH += .
-QT += script \
-    xml
+QT += core gui widgets
+QT += script xml printsupport
+!android: QT += serialport
+
 TARGET = automonkernel
 CONFIG -= app_bundle
-unix:OBJECTS_DIR = tmpobjects/
-TEMPL = appATE
-INCLUDEPATH += /home/donal/project/libs/qextserialport
-QMAKE_LIBDIR += /home/donal/project/libs/qextserialport/build
-LIBS += -L/home/donal/project/libs/qextserialport/build/ \
-    -lqextserialport
-unix:DEFINES = _TTY_POSIX_
-win32:DEFINES = _TTY_WIN_ \
-    QWT_DLL \
-    QT_DLL
+#unix:OBJECTS_DIR = tmpobjects
+#TEMPL = appATE
+
+#INCLUDEPATH += /home/donal/project/libs/qextserialport
+#QMAKE_LIBDIR += /home/donal/project/libs/qextserialport/build
+#LIBS += -L/home/donal/project/libs/qextserialport/build/ \
+#    -lqextserialport
 
 # Input
 HEADERS += automon.h \
@@ -50,7 +49,8 @@ HEADERS += automon.h \
     menuwidget.h \
     menuitem.h \
     accelerationtestwidget.h \
-    ruleeditorwidget.h
+    ruleeditorwidget.h \
+    lib/QtSerialPort/qringbuffer_p.h
 SOURCES += automon.cpp \
     command.cpp \
     commandedegr.cpp \
@@ -81,5 +81,29 @@ SOURCES += automon.cpp \
     menuitem.cpp \
     accelerationtestwidget.cpp \
     ruleeditorwidget.cpp
-FORMS += 
+#FORMS +=
 RESOURCES += automonapp.qrc
+
+unix!mac {
+    DEFINES += _TTY_POSIX_
+    HEADERS +=   lib/QtSerialPort/qserialport_unix_p.h \
+                 lib/QtSerialPort/qtudev_p.h \
+    lib/QtSerialPort/qserialport_p.h \
+    lib/QtSerialPort/qserialport.h \
+    lib/QtSerialPort/qserialportglobal.h \
+    lib/QtSerialPort/qserialportinfo_p.h \
+    lib/QtSerialPort/qserialportinfo.h
+
+    SOURCES +=   lib/QtSerialPort/qserialport_unix.cpp \
+                 lib/QtSerialPort/qserialportinfo_unix.cpp \
+    lib/QtSerialPort/qserialport.cpp \
+    lib/QtSerialPort/qserialportinfo.cpp
+}
+
+win32 {
+    DEFINES = _TTY_WIN_ \
+    QWT_DLL \
+    QT_DLL
+    QT += serialport
+}
+

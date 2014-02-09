@@ -17,20 +17,14 @@
     This is the entry point of the Automon Application. It sets up an Application instance and looks after
     handling the splash screen.
 */
-
-
 #include <QApplication>
 #include <QFile>
 #include <QWidget>
-#include <QWSServer>
 #include <QSplashScreen>
-
 #include "automonapp.h"
-
 
 int main(int argc, char *argv[])
 {
-
     /* Create an application */
     QApplication a(argc, argv);
 
@@ -46,9 +40,8 @@ int main(int argc, char *argv[])
     /* Apply stylesheet to application */
     a.setStyleSheet(styleSheet.readAll());
 
-
     /* Disable the cursor since using touch screen */
-    QWSServer::setCursorVisible (false);
+//    a.setOverrideCursor( QCursor( Qt::BlankCursor )); [LA]
 
     /* Open Splashscreen image, create a SplashScreen with it and show splash screen */
     QPixmap pixmap(":/files/splashscreen.png");
@@ -58,6 +51,7 @@ int main(int argc, char *argv[])
 
     /* Start our automon application */
     AutomonApp automon(&splash);
+//    automon.setCursor(QCursor(Qt::BlankCursor)); [LA]
     automon.show();
 
     /* Finsih the splashscreen once Automon has loaded */

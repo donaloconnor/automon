@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/" >
+    <qresource prefix="/">
         <file>files/nature_1.jpg</file>
         <file>files/splashscreen.png</file>
         <file>slides/item1.jpg</file>
@@ -19,5 +19,9 @@
         <file>files/enginemiloff.png</file>
         <file>files/automon.qss</file>
         <file>files/pushbuttondown.png</file>
+    </qresource>
+    <qresource prefix="/files">
+        <file>codes</file>
+        <file>rules</file>
     </qresource>
 </RCC>
