@@ -1,1 +1,8 @@
 *.user
+Makefile
+
+*.Debug
+
+*.Release
+
+automonkernel.pro.user.1.3

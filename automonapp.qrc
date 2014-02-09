@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>files/nature_1.jpg</file>
+        <file>files/splashscreen.png</file>
+        <file>slides/item1.jpg</file>
+        <file>slides/item2.jpg</file>
+        <file>icons/diagnosticsicon.png</file>
+        <file>icons/dashboardicon.png</file>
+        <file>icons/automonsettingsicon.png</file>
+        <file>files/applicationbackground.png</file>
+        <file>icons/accelerationtesticon.png</file>
+        <file>icons/cardetailsicon.png</file>
+        <file>icons/monitoringicon.png</file>
+        <file>files/dialogbg.png</file>
+        <file>files/pushbutton.png</file>
+        <file>files/add.png</file>
+        <file>files/remove.png</file>
+        <file>files/enginemil.png</file>
+        <file>files/enginemiloff.png</file>
+        <file>files/automon.qss</file>
+        <file>files/pushbuttondown.png</file>
+    </qresource>
+</RCC>
